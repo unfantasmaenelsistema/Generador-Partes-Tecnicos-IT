@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { WorkOrder } from '../types/workOrder';
 import { evaluateWorkOrder } from '../utils/evaluateWorkOrder';
+import { computeTotals, formatEur } from '../utils/workOrderTotals';
+import { isWorkOrder } from '../utils/workOrderSchema';
 
 interface SavedOrdersArchiveViewProps {
   savedOrders: WorkOrder[];
@@ -62,7 +64,7 @@ export const SavedOrdersArchiveView: React.FC<SavedOrdersArchiveViewProps> = ({
     link.href = url;
     link.download = `partes-tecnicos-it-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,12 +74,14 @@ export const SavedOrdersArchiveView: React.FC<SavedOrdersArchiveViewProps> = ({
     reader.onload = (ev) => {
       try {
         const parsed = JSON.parse(String(ev.target?.result));
-        if (Array.isArray(parsed)) {
-          onImportOrders(parsed);
-          setImportFeedback(`Se han importado ${parsed.length} órdenes de trabajo correctamente.`);
-        } else if (parsed && typeof parsed === 'object' && parsed.orderNumber) {
-          onImportOrders([parsed as WorkOrder]);
-          setImportFeedback(`Orden ${parsed.orderNumber} importada correctamente.`);
+        const candidates: unknown[] = Array.isArray(parsed) ? parsed : [parsed];
+        const valid = candidates.filter(isWorkOrder);
+        const skipped = candidates.length - valid.length;
+        if (valid.length > 0) {
+          onImportOrders(valid);
+          setImportFeedback(
+            `Se han importado ${valid.length} órdenes de trabajo correctamente.${skipped ? ` Se han descartado ${skipped} con formato no válido.` : ''}`
+          );
         } else {
           setImportFeedback('El archivo JSON no tiene un formato de Orden de Trabajo válido.');
         }
@@ -196,12 +200,7 @@ export const SavedOrdersArchiveView: React.FC<SavedOrdersArchiveViewProps> = ({
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                 {filteredOrders.map((ord) => {
                   const evalResult = evaluateWorkOrder(ord);
-                  const partsSub = ord.replacedParts.reduce(
-                    (s, p) => s + p.quantity * p.unitPriceEur,
-                    0
-                  );
-                  const laborSub = ord.laborHours * ord.hourlyRateEur;
-                  const total = (partsSub + laborSub) * (1 + ord.vatPercent / 100);
+                  const total = computeTotals(ord).grandTotal;
                   const isCurrent = ord.id === activeOrderId;
 
                   return (
@@ -256,7 +255,7 @@ export const SavedOrdersArchiveView: React.FC<SavedOrdersArchiveViewProps> = ({
                         </span>
                       </td>
                       <td className="py-3 px-4 font-mono font-semibold text-right text-slate-900 dark:text-slate-100 tabular-nums">
-                        {total.toFixed(2)} €
+                        {formatEur(total)}
                       </td>
                       <td className="py-3 px-4 text-right">
                         <div className="inline-flex items-center gap-2">

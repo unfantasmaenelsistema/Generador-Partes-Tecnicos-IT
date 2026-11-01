@@ -1,5 +1,6 @@
 import React from 'react';
 import { DidacticReportEvaluation, WorkOrder } from '../types/workOrder';
+import { computeTotals, formatEur } from '../utils/workOrderTotals';
 
 interface PrintableWorkOrderSheetProps {
   order: WorkOrder;
@@ -12,14 +13,7 @@ export const PrintableWorkOrderSheet: React.FC<PrintableWorkOrderSheetProps> = (
   evaluation,
   includeDidacticRubric = false
 }) => {
-  const partsSubtotal = order.replacedParts.reduce(
-    (sum, part) => sum + part.quantity * part.unitPriceEur,
-    0
-  );
-  const laborSubtotal = order.laborHours * order.hourlyRateEur;
-  const taxableBase = partsSubtotal + laborSubtotal;
-  const vatAmount = taxableBase * (order.vatPercent / 100);
-  const grandTotal = taxableBase + vatAmount;
+  const { partsSubtotal, laborSubtotal, taxableBase, vatAmount, grandTotal } = computeTotals(order);
 
   const totalActionMinutes = order.correctiveActions.reduce(
     (sum, act) => sum + (Number(act.durationMinutes) || 0),
@@ -376,7 +370,7 @@ export const PrintableWorkOrderSheet: React.FC<PrintableWorkOrderSheetProps> = (
                       {part.quantity}
                     </td>
                     <td className="py-2 pl-2 font-mono font-medium text-right text-slate-900 dark:text-slate-100 tabular-nums">
-                      {(part.quantity * part.unitPriceEur).toFixed(2)} €
+                      {formatEur(part.quantity * part.unitPriceEur)}
                     </td>
                   </tr>
                 ))}
@@ -399,23 +393,23 @@ export const PrintableWorkOrderSheet: React.FC<PrintableWorkOrderSheetProps> = (
           <div className="w-full sm:w-64 space-y-1 font-mono tabular-nums">
             <div className="flex justify-between text-slate-600 dark:text-slate-400">
               <span>Subtotal Repuestos:</span>
-              <span>{partsSubtotal.toFixed(2)} €</span>
+              <span>{formatEur(partsSubtotal)}</span>
             </div>
             <div className="flex justify-between text-slate-600 dark:text-slate-400">
               <span>Mano de Obra ({order.laborHours}h × {order.hourlyRateEur}€):</span>
-              <span>{laborSubtotal.toFixed(2)} €</span>
+              <span>{formatEur(laborSubtotal)}</span>
             </div>
             <div className="flex justify-between text-slate-600 dark:text-slate-400">
               <span>Base Imponible:</span>
-              <span>{taxableBase.toFixed(2)} €</span>
+              <span>{formatEur(taxableBase)}</span>
             </div>
             <div className="flex justify-between text-slate-600 dark:text-slate-400">
               <span>IVA ({order.vatPercent}%):</span>
-              <span>{vatAmount.toFixed(2)} €</span>
+              <span>{formatEur(vatAmount)}</span>
             </div>
             <div className="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-1 border-t border-slate-900 dark:border-slate-200">
               <span>TOTAL ORDEN:</span>
-              <span>{grandTotal.toFixed(2)} €</span>
+              <span>{formatEur(grandTotal)}</span>
             </div>
           </div>
         </div>

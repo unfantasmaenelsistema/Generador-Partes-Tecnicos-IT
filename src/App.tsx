@@ -27,6 +27,8 @@ import { createBlankWorkOrder, DIDACTIC_CASES } from './data/didacticCases';
 import { DidacticCase, WorkOrder } from './types/workOrder';
 import { evaluateWorkOrder } from './utils/evaluateWorkOrder';
 import { downloadWorkOrderMarkdown } from './utils/exportMarkdown';
+import { catalogToolsForProbe } from './utils/workOrderTotals';
+import { isWorkOrder } from './utils/workOrderSchema';
 
 type WorkspaceTab = 'editor' | 'lab' | 'guide' | 'preview' | 'archive';
 
@@ -73,8 +75,9 @@ export default function App() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+        if (Array.isArray(parsed)) {
+          const valid = parsed.filter(isWorkOrder);
+          if (valid.length > 0) return valid;
         }
       }
     } catch {
@@ -93,7 +96,7 @@ export default function App() {
       const raw = localStorage.getItem(ACTIVE_ORDER_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (parsed && parsed.orderNumber) {
+        if (isWorkOrder(parsed)) {
           return parsed;
         }
       }
@@ -224,7 +227,10 @@ export default function App() {
       const updatedTelemetry = existingTelemetry
         ? `${existingTelemetry} · ${metricText}`
         : metricText;
-      const tools = prev.faultDiagnosis.diagnosticToolsUsed;
+      // La herramienta con la que se obtuvo la telemetría queda registrada en el parte
+      const tools = Array.from(
+        new Set([...prev.faultDiagnosis.diagnosticToolsUsed, ...catalogToolsForProbe(toolName)])
+      );
       return {
         ...prev,
         faultDiagnosis: {
@@ -281,13 +287,13 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-150">
       {/* Top Bar Contract: 3 Zones separated by gap-8 */}
-      <header className="no-print sticky top-0 z-30 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3.5 flex items-center justify-between gap-8 transition-colors">
+      <header className="no-print sticky top-0 z-30 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4 xl:gap-8 transition-colors">
         {/* Zone 1: Single-line Brand Wordmark + User Logo */}
         <a
           href="https://www.unfantasmaenelsistema.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2.5 text-base font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0"
+          className="flex items-center gap-2.5 text-base font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap min-w-0"
         >
           <img
             src={logoSrc}
@@ -295,11 +301,11 @@ export default function App() {
             referrerPolicy="no-referrer"
             className="w-8 h-8 object-contain shrink-0"
           />
-          <span>Un Fantasma en el Sistema</span>
+          <span className="hidden sm:inline lg:hidden 2xl:inline">Un Fantasma en el Sistema</span>
         </a>
 
         {/* Zone 2: 5 concise single-line navigation links */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
           <button
             type="button"
             onClick={() => setActiveTab('editor')}
@@ -385,13 +391,14 @@ export default function App() {
             className="px-4 py-2 text-xs font-medium text-white dark:text-slate-950 bg-slate-900 dark:bg-sky-400 rounded-lg hover:bg-slate-800 dark:hover:bg-sky-300 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5"
           >
             <Printer className="w-3.5 h-3.5" />
-            Imprimir / PDF A4
+            <span className="hidden sm:inline">Imprimir / PDF A4</span>
+            <span className="sm:hidden">PDF</span>
           </button>
         </div>
       </header>
 
       {/* Sub-barra de Navegación Móvil */}
-      <div className="no-print md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+      <div className="no-print lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto">
         {(
           [
             { id: 'editor', label: 'Formulario' },
@@ -461,7 +468,7 @@ export default function App() {
                 }
               }}
               aria-label="Seleccionar caso práctico de taller"
-              className="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md text-slate-800 dark:text-slate-200 font-medium focus:outline-none focus:border-slate-900 dark:focus:border-sky-400"
+              className="w-full sm:w-auto max-w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md text-slate-800 dark:text-slate-200 font-medium focus:outline-none focus:border-slate-900 dark:focus:border-sky-400"
             >
               <option value="">Modo Libre — Parte en Blanco</option>
               {DIDACTIC_CASES.map((c) => (

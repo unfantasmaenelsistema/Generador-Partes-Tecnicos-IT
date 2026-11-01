@@ -1,16 +1,15 @@
 import { WorkOrder } from '../types/workOrder';
 import { evaluateWorkOrder } from './evaluateWorkOrder';
+import { computeTotals, formatEur } from './workOrderTotals';
 
-export function downloadWorkOrderMarkdown(order: WorkOrder): void {
+// Texto seguro dentro de una celda de tabla Markdown: | y saltos de línea romperían la tabla
+const cell = (text: string) => text.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+// Texto seguro dentro de un `código en línea`
+const code = (text: string) => text.replace(/`/g, "'").replace(/\r?\n/g, ' ');
+
+export function buildWorkOrderMarkdown(order: WorkOrder): string {
   const evaluation = evaluateWorkOrder(order);
-  const partsSubtotal = order.replacedParts.reduce(
-    (sum, p) => sum + p.quantity * p.unitPriceEur,
-    0
-  );
-  const laborSubtotal = order.laborHours * order.hourlyRateEur;
-  const taxableBase = partsSubtotal + laborSubtotal;
-  const vatAmount = taxableBase * (order.vatPercent / 100);
-  const grandTotal = taxableBase + vatAmount;
+  const { partsSubtotal, laborSubtotal, taxableBase, vatAmount, grandTotal } = computeTotals(order);
 
   const lines: string[] = [
     `# ORDEN DE TRABAJO E INFORME TÉCNICO IT — ${order.orderNumber}`,
@@ -49,7 +48,7 @@ export function downloadWorkOrderMarkdown(order: WorkOrder): void {
     `${order.faultDiagnosis.technicalDiagnosis || 'Pendiente'}`,
     ``,
     `- **Instrumentación empleada:** ${order.faultDiagnosis.diagnosticToolsUsed.join(', ') || 'No especificada'}`,
-    `- **Telemetría y códigos verificados:** \`${order.faultDiagnosis.telemetryAndErrorCodes || '—'}\``,
+    `- **Telemetría y códigos verificados:** \`${code(order.faultDiagnosis.telemetryAndErrorCodes) || '—'}\``,
     ``,
     `## 03. Acciones Correctivas Aplicadas`,
     ``,
@@ -57,7 +56,7 @@ export function downloadWorkOrderMarkdown(order: WorkOrder): void {
     `| :--- | :--- | :--- | :---: |`,
     ...order.correctiveActions.map(
       (a) =>
-        `| ${a.stage} | **${a.actionVerb}** | ${a.technicalDescription} | ${a.durationMinutes} min |`
+        `| ${cell(a.stage)} | **${cell(a.actionVerb)}** | ${cell(a.technicalDescription)} | ${a.durationMinutes} min |`
     ),
     ``,
     `## 04. Piezas Sustituidas y Liquidación Económica`,
@@ -70,7 +69,7 @@ export function downloadWorkOrderMarkdown(order: WorkOrder): void {
       `| :--- | :--- | :--- | :--- | :---: | :---: | :---: |`,
       ...order.replacedParts.map(
         (p) =>
-          `| ${p.componentName} (${p.condition}) | \`${p.partNumberOrSku}\` | \`${p.removedComponentRef}\` | \`${p.installedComponentRef}\` | ${p.warrantyMonths} m | ${p.quantity} | ${(p.quantity * p.unitPriceEur).toFixed(2)} € |`
+          `| ${cell(p.componentName)} (${p.condition}) | \`${cell(code(p.partNumberOrSku))}\` | \`${cell(code(p.removedComponentRef))}\` | \`${cell(code(p.installedComponentRef))}\` | ${p.warrantyMonths} m | ${p.quantity} | ${formatEur(p.quantity * p.unitPriceEur)} |`
       ),
       ``
     );
@@ -79,17 +78,17 @@ export function downloadWorkOrderMarkdown(order: WorkOrder): void {
   }
 
   lines.push(
-    `- **Subtotal Repuestos:** ${partsSubtotal.toFixed(2)} €`,
-    `- **Mano de Obra (${order.laborHours}h × ${order.hourlyRateEur} €/h):** ${laborSubtotal.toFixed(2)} €`,
-    `- **Base Imponible:** ${taxableBase.toFixed(2)} €`,
-    `- **IVA (${order.vatPercent}%):** ${vatAmount.toFixed(2)} €`,
-    `- **TOTAL ORDEN DE TRABAJO:** **${grandTotal.toFixed(2)} €**`,
+    `- **Subtotal Repuestos:** ${formatEur(partsSubtotal)}`,
+    `- **Mano de Obra (${String(order.laborHours).replace('.', ',')} h × ${formatEur(order.hourlyRateEur)}/h):** ${formatEur(laborSubtotal)}`,
+    `- **Base Imponible:** ${formatEur(taxableBase)}`,
+    `- **IVA (${order.vatPercent} %):** ${formatEur(vatAmount)}`,
+    `- **TOTAL ORDEN DE TRABAJO:** **${formatEur(grandTotal)}**`,
     ``,
     `## 05. Prueba Final de Conformidad (QA)`,
     ``,
     ...order.conformityChecks.map(
       (c) =>
-        `- [${c.passed ? 'x' : ' '}] **${c.code} — ${c.testName}:** \`${c.measuredResult}\``
+        `- [${c.passed ? 'x' : ' '}] **${c.code} — ${c.testName}:** \`${code(c.measuredResult)}\``
     ),
     ``,
     `### Observaciones Finales y Recomendaciones Preventivas`,
@@ -97,13 +96,18 @@ export function downloadWorkOrderMarkdown(order: WorkOrder): void {
     ``
   );
 
-  const blob = new Blob([lines.join('\n')], {
+  return lines.join('\n');
+}
+
+export function downloadWorkOrderMarkdown(order: WorkOrder): void {
+  const blob = new Blob([buildWorkOrderMarkdown(order)], {
     type: 'text/markdown;charset=utf-8'
   });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `${order.orderNumber || 'parte-tecnico'}.md`;
+  // Nombre de archivo sin caracteres que Windows no admite
+  link.download = `${(order.orderNumber || 'parte-tecnico').replace(/[\\/:*?"<>|]+/g, '-')}.md`;
   link.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

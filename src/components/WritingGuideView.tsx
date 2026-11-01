@@ -53,7 +53,7 @@ const TECHNICAL_TRANSLATIONS: GlossaryTranslation[] = [
     userOrColloquialPhrase: '«Enciende las luces pero la pantalla se queda en negro.» / «Una memoria estaba rota o suelta.»',
     professionalDiagnosisPhrase: 'Fallo de inicialización en secuencia Power-On Self-Test (POST) retenido en fase DRAM (indicador EZ-Debug DRAM activo) debido a errores de celda de memoria detectados en el módulo DIMM (canal A2) incluso a perfil base JEDEC.',
     professionalActionPhrase: 'Limpieza de contactos de zócalos DIMM con dieléctrico de residuo cero, sustitución del kit emparejado Dual-Channel DDR4/DDR5, actualización de microcódigo UEFI/AGESA y configuración de perfil XMP/EXPO.',
-    qaVerificationMetric: 'Supera 4 pasadas completas de MemTest86+ v7.0 (13 algoritmos) con 0 errores de paridad · Tiempo de POST: 12 segundos.'
+    qaVerificationMetric: 'Supera 4 pasadas completas de MemTest86+ v7.0 (13 tests) con 0 errores de memoria · Tiempo de POST: 12 segundos.'
   },
   {
     id: 'tr-5',

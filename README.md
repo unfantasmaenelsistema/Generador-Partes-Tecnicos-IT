@@ -1,122 +1,137 @@
-<div align="center">
-  <a href="https://www.unfantasmaenelsistema.com/" target="_blank" rel="noopener noreferrer">
-    <img src="./public/assets/aistudio/icono_81a3db5b.png" alt="Logo Un Fantasma en el Sistema" width="120" height="120" />
-  </a>
+<p align="center">
+  <a href="https://www.unfantasmaenelsistema.com"><img src="public/assets/aistudio/icono_81a3db5b.png" width="110" alt="Un fantasma en el sistema"></a>
+</p>
 
-  # Generador de Partes Técnicos y Órdenes de Trabajo IT
+<h1 align="center">Generador de Partes Técnicos IT</h1>
 
-  **Entrenador didáctico de redacción técnica precisa, diagnóstico de causa raíz y documentación auditable para taller microinformático y Formación Profesional (SMR / ASIR / DAW / DAM).**
+<p align="center">
+  <b>Redacta órdenes de trabajo de taller como un profesional y aprende a diferenciar lo que dice el cliente de lo que mide el técnico</b><br>
+  Identificación del equipo · Síntoma frente a diagnóstico · Acciones correctivas · Piezas con P/N · Pruebas de conformidad · Documento A4 y Markdown
+</p>
 
-  Un proyecto educativo y profesional de **[Un Fantasma en el Sistema](https://www.unfantasmaenelsistema.com/)**
+<p align="center">
+  <a href="https://unfantasmaenelsistema.github.io/Generador-Partes-Tecnicos-IT/"><b>▶ Abrir el generador</b></a> ·
+  <a href="#qué-hace">Qué hace</a> ·
+  <a href="#para-clase">Para clase</a> ·
+  <a href="#cómo-evalúa">Cómo evalúa</a> ·
+  <a href="#desarrollo">Desarrollo</a> ·
+  <a href="https://www.unfantasmaenelsistema.com">unfantasmaenelsistema.com</a> ·
+  <a href="LICENSE">MIT</a>
+</p>
 
-  [![Web Oficial](https://img.shields.io/badge/Web-unfantasmaenelsistema.com-0F172A?style=flat-square)](https://www.unfantasmaenelsistema.com/)
-  [![Licencia](https://img.shields.io/badge/Licencia-Apache_2.0-0284C7?style=flat-square)](./LICENSE)
-  [![GitHub Pages Ready](https://img.shields.io/badge/Despliegue-GitHub_Pages_Ready-059669?style=flat-square)](./.github/workflows/deploy.yml)
-</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/navegador-sin_servidor-10b981?style=flat-square" alt="Sin servidor">
+  <img src="https://img.shields.io/badge/datos-100%25_locales-0284c7?style=flat-square" alt="Datos 100 % locales">
+  <img src="https://img.shields.io/badge/casos-6-f59e0b?style=flat-square" alt="6 casos">
+  <img src="https://img.shields.io/badge/licencia-MIT-blue?style=flat-square" alt="MIT">
+</p>
 
----
+<p align="center">
+  <img src="docs/capturas/01-editor-y-rubrica.webp" width="900" alt="Editor del parte técnico con el borrador deficiente del caso 1 y la rúbrica en tiempo real">
+</p>
 
-## Qué hace esta aplicación
+Un parte técnico sirve de garantía, de factura y de historial del equipo, así que tiene que poder auditarse: número de serie real, diagnóstico con magnitudes, piezas con su referencia y pruebas finales con valores medidos. El generador lo enseña con seis averías reales de taller. El alumno parte de un borrador lleno de vaguedades («estaba roto», «le eché pasta», «todo ok»), investiga en un laboratorio simulado y reescribe el parte hasta que la rúbrica lo da por bueno.
 
-El **Generador de Partes Técnicos y Órdenes de Trabajo IT** es una aplicación web 100 % funcional en navegador (sin necesidad de backend ni bases de datos externas) diseñada tanto para el **entrenamiento didáctico en el aula de informática** como para la **generación real de partes de intervención técnica**.
+> [!NOTE]
+> Los casos, equipos y mediciones son verosímiles pero ficticios; los nombres de clientes son inventados. Todo se guarda en el propio navegador.
 
-Su objetivo pedagógico es enseñar a estudiantes y técnicos de soporte a redactar **documentación técnica precisa, objetiva y auditable**, erradicando el uso de argot o descripciones ambiguas (*«estaba roto»*, *«tenía pelusa»*, *«le eché pasta»*, *«le pasé un programa»*, *«todo ok»*) y estructurando cada intervención en **cinco pilares fundamentales**:
+## Qué hace
 
-1. **Identificación Unívoca del Equipo y Recepción**: Categoría, marca, modelo exacto, número de serie (`S/N` o *Service Tag*), etiqueta de inventario, especificaciones completas (`CPU`, `RAM`, `Almacenamiento`, `Placa/GPU`, `SO`), estado estético previo y accesorios recepcionados (con `P/N`).
-2. **Descripción del Fallo Aportada por el Usuario vs. Diagnóstico Real del Técnico**: Diferenciación rigurosa entre el síntoma subjetivo reportado por el cliente en mostrador y el dictamen técnico objetivo de causa raíz respaldado por instrumentación y telemetría (`°C`, `V`, `RPM`, atributos `SMART`, códigos `POST`, `Minidump BSOD`, `Event ID`).
-3. **Acciones Correctivas Aplicadas**: Procedimiento técnico cronológico dividido por fases (*Seguridad ESD y Desmontaje*, *Intervención de Hardware*, *Firmware / Sistema*, *Saneamiento y Montaje*) con verbos técnicos normalizados y control de tiempos.
-4. **Trazabilidad de Piezas Sustituidas y Liquidación Económica**: Registro de recambios con su *Part Number* (`P/N`, `FRU` o `SKU`), referencia/serie del componente retirado (baja) frente al instalado (alta), meses de garantía y cálculo automático de mano de obra, base imponible e IVA.
-5. **Prueba Final de Conformidad (QA)**: Lista de verificación post-reparación que exige **métricas cuantitativas** verificadas antes del cierre y firma de la orden.
+- **Formulario completo de orden de trabajo**: cliente y autorizaciones (RGPD, garantía), identificación del equipo, síntoma del cliente y diagnóstico técnico, herramientas y telemetría, acciones por fases con tiempos, piezas sustituidas con P/N y garantía, pruebas de conformidad y notas finales.
+- **Rúbrica en tiempo real (100 puntos)** en cinco pilares, con aviso de cada expresión coloquial y de lo que falta para llegar al nivel profesional.
+- **Laboratorio de diagnóstico** por caso: inspección visual, HWiNFO64, SMART, MemTest86+, tester ATX, osciloscopio, visor de eventos o WinDbg, con su salida y una pista de interpretación. Los hallazgos se envían al parte y la herramienta queda registrada.
+- **Guía de redacción** con verbos técnicos normalizados y ejemplos de cómo pasar del lenguaje del mostrador al del informe.
+- **Comparación lado a lado** con la solución modelo del profesor y opción de aplicar una sección del modelo.
+- **Documento A4** listo para imprimir o guardar como PDF (con o sin la calificación) y **exportación a Markdown**, con mano de obra, piezas, base imponible e IVA en formato español.
+- **Archivo local** de partes con búsqueda, exportación e importación en JSON.
 
----
+<p align="center">
+  <img src="docs/capturas/02-laboratorio-de-diagnostico.webp" width="700" alt="Laboratorio de diagnóstico del caso 1: inspección física, telemetría HWiNFO64 con PROCHOT y THERMTRIP, SMART del NVMe y visor de eventos">
+</p>
 
-## Capturas de Pantalla
+## Para clase
 
-### 1. Editor de Orden de Trabajo y Rúbrica Didáctica en Tiempo Real (0–100 pts)
-Evalúa al instante los 5 pilares del parte técnico, detecta expresiones coloquiales e indica qué criterios o magnitudes faltan para alcanzar el estándar de auditoría IT.
+| Caso | Avería | Lo que hay que demostrar |
+| :-- | :-- | :-- |
+| 01 | Portátil que se apaga bajo carga | Ventilador con rodamiento gripado y radiador obstruido: PROCHOT, THERMTRIP y eventos 41 y 37 |
+| 02 | Workstation que se congela | Disco con sectores reasignados, pendientes e incorregibles (SMART 05, C5, C6) |
+| 03 | Enciende pero no da imagen | LED DRAM de EZ-Debug, módulo desencajado y otro con errores en MemTest86+ |
+| 04 | Carga intermitente | Soldadura fracturada en el DC-Jack, medida con polímetro y fuente de laboratorio |
+| 05 | NAS inaccesible y pitando | Cambio de subred tras sustituir el router y RAID 1 degradado por un corte |
+| 06 | Pantallazos azules al exportar vídeo | La GPU está sana: la fuente cae a 11,08 V con 165 mVpp de rizado |
 
-![Editor de Parte Técnico y Evaluador Didáctico](./public/assets/screenshots/01-editor-rubrica.svg)
+Cada caso se puede abrir de tres maneras: **corregir el borrador deficiente**, **redactar desde la recepción** investigando en el laboratorio, o **examinar la solución modelo**. Las pruebas automáticas comprueban que los seis borradores suspenden y que las seis soluciones modelo sacan 100.
 
-### 2. Laboratorio de Diagnóstico e Instrumentación de Taller
-Permite inspeccionar la queja literal del cliente, ejecutar pruebas simuladas de banco (`HWiNFO64`, `smartctl`, `MemTest86+`, `WinDbg`, `Osciloscopio / Polímetro TrueRMS`) y enviar los hallazgos directamente al parte activo.
+<p align="center">
+  <img src="docs/capturas/03-documento-a4.webp" width="700" alt="Documento A4 de la orden de trabajo con cabecera, identificación del equipo, contraste síntoma frente a diagnóstico y acciones correctivas">
+</p>
 
-![Laboratorio de Diagnóstico e Instrumentación](./public/assets/screenshots/02-laboratorio-diagnostico.svg)
+## Cómo evalúa
 
-### 3. Hoja Oficial A4 Imprimible / PDF con Certificado de Calificación Didáctica
-Genera un documento oficial A4 listo para imprimir o guardar como PDF (`Ctrl+P` / `Cmd+P`), con opción de incluir el **Certificado de Evaluación Didáctica** en la cabecera para entregas de prácticas al profesor.
+| Pilar | Puntos | Qué mira |
+| :-- | :-: | :-- |
+| Identificación y recepción | 20 | Número de serie real, marca y modelo exactos, especificaciones con modelo y capacidad, estado estético y accesorios |
+| Síntoma frente a diagnóstico | 25 | Síntoma del cliente con contexto, herramientas y telemetría con magnitudes o códigos, diagnóstico técnico distinto del síntoma y sin coloquialismos |
+| Acciones correctivas | 20 | Al menos dos fases redactadas con terminología técnica |
+| Piezas y trazabilidad | 15 | P/N o SKU y referencias retirada e instalada de cada pieza, o justificación de que no hizo falta recambio |
+| Pruebas de conformidad | 20 | Al menos dos pruebas superadas con valores medidos; una orden cerrada como «Conforme» no puede tener pruebas sin superar |
 
-![Vista Previa Oficial A4 e Informe de Calificación](./public/assets/screenshots/03-documento-oficial-a4.svg)
+Cada expresión coloquial en un campo técnico resta 3 puntos (hasta 15). El síntoma del cliente no se penaliza: es normal que el cliente hable con sus palabras.
 
----
+<p align="center">
+  <img src="docs/capturas/04-comparacion-con-modelo.webp" width="700" alt="Comparación del borrador del caso 3 con la solución modelo del profesor, sección por sección">
+</p>
 
-## Casos Prácticos Incluidos y Modos de Entrenamiento
+## Privacidad
 
-La aplicación incorpora **6 escenarios curriculares reales** listos para trabajar en **3 modos pedagógicos**:
+Todo se ejecuta en el navegador, sin servidor ni cuentas. Los partes guardados están en el almacenamiento local del navegador y solo salen de él si los exportas. Las fuentes van incluidas en la web y una política CSP estricta impide cargar código o estilos de terceros.
 
-- **Modo 1 — Reto: Corregir Parte Deficiente**: Carga un parte redactado por un técnico principiante lleno de vicios habituales (lenguaje coloquial, S/N omitido, diagnóstico confuso, cierre sin métricas) para que el alumno lo reescriba hasta superar los 85/100 puntos.
-- **Modo 2 — Investigar y Redactar desde Recepción**: Carga únicamente los datos del cliente y su queja verbal; el alumno debe ejecutar las sondas en el *Laboratorio de Diagnóstico* y redactar desde cero el diagnóstico técnico, acciones, repuestos y pruebas QA.
-- **Modo 3 — Examinar Solución Modelo del Profesor (100/100)**: Carga la resolución ejemplar completa o abre el **Comparador Lado a Lado** para contrastar cada sección del alumno frente a la solución modelo.
+## Desarrollo
 
-| Código | Escenario Técnico de Taller | Módulo / Área Curricular | Causa Raíz y Telemetría Clave |
-| :--- | :--- | :--- | :--- |
-| **CASO-01** | Apagado súbito bajo carga en portátil CAD | Montaje y Mantenimiento de Equipos | Disparo de `PROCHOT#` / `THERMTRIP#` (100 °C), ventilador a 1.150 RPM con holgura axial y radiador obstruido al 85 %. |
-| **CASO-02** | Congelaciones al abrir carpetas en disco secundario | Sistemas Operativos y Almacenamiento | Degradación física en HDD (`SMART ID 05 = 184` reasignados, `ID C5 = 47` pendientes) y timeouts AHCI (`Event ID 129/153`). |
-| **CASO-03** | Equipo enciende LEDs pero no da señal de vídeo | Diagnóstico de Placa Base y Memoria | Bloqueo `EZ-Debug DRAM` en POST por desencajamiento en `DIMMA2` y 412 errores de celda en `MemTest86+` a JEDEC 4800 MHz. |
-| **CASO-04** | Carga intermitente al forzar cable y clavija caliente | Electrónica y Alimentación | Fractura anular de soldadura (soldadura fría) en pin positivo `+19V` del conector `DC-Jack` y calentamiento por efecto Joule (84 °C). |
-| **CASO-05** | Carpetas SMB inaccesibles y alarma acústica en NAS | Servicios en Red y Almacenamiento RAID | Incidencia concurrente: conflicto de subred IPv4 tras cambio de router ISP + caída de Bahía 2 en matriz `RAID 1 Btrfs`. |
-| **CASO-06** | Pantallazos azules (`0x116`) al exportar vídeo 4K | Fuentes Conmutadas y Estabilidad GPU | `VIDEO_TDR_FAILURE` originado por caída del raíl `+12V` a `11.08 V` (< `11.40 V` mín. ATX) y rizado de `165 mVpp` en fuente envejecida. |
+Requisitos: Node.js 20 o superior.
 
----
-
-## Rúbrica de Evaluación Automática (100 Puntos)
-
-| Pilar Didáctico | Puntuación Máxima | Criterios Auditados en Tiempo Real |
-| :--- | :---: | :--- |
-| **1. Identificación del Equipo** | **20 pts** | `S/N` válido (no genérico), marca/modelo exactos, especificaciones detalladas (`CPU`, `RAM`, `Almacenamiento`), estado cosmético y accesorios. |
-| **2. Síntoma vs. Diagnóstico** | **25 pts** | Separación entre síntoma del usuario y causa raíz técnica, selección de instrumentación e inclusión de magnitudes/códigos verificables. |
-| **3. Acciones Correctivas** | **20 pts** | Desglose en múltiples etapas técnicas, uso de verbos de acción precisos y ausencia de expresiones domésticas. |
-| **4. Piezas Sustituidas** | **15 pts** | Registro de `P/N / FRU / SKU`, referencia del componente retirado (baja) e instalado (alta), y periodo de garantía. |
-| **5. Prueba Final de Conformidad** | **20 pts** | Pruebas superadas con resultados numéricos medibles (`°C`, `MB/s`, `V`, `0 errores`) en lugar de cierres genéricos. |
-| **Penalización por Jerga** | **Hasta -15 pts** | Detección en vivo de coloquialismos (*«roto»*, *«pelusa»*, *«cacharrito»*, *«echar pasta»*, *«iba mal»*, *«todo ok»*). |
-
----
-
-## Instalación y Uso Local
-
-### Requisitos previos
-- **Node.js** 18+ y **npm**
-
-### Pasos
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/generador-partes-tecnicos-it.git
-cd generador-partes-tecnicos-it
-
-# 2. Instalar dependencias
-npm install
-
-# 3. Iniciar servidor de desarrollo (http://localhost:3000)
-npm run dev
-
-# 4. Generar compilación estática de producción en /dist
-npm run build
+git clone https://github.com/unfantasmaenelsistema/Generador-Partes-Tecnicos-IT.git
+cd Generador-Partes-Tecnicos-IT
+npm ci
+npm run dev      # http://localhost:3000
+npm test         # pruebas del evaluador y de los cálculos (Vitest)
+npm run lint     # comprobación de tipos
+npm run build    # versión estática en dist/
 ```
 
----
+El workflow `.github/workflows/deploy.yml` comprueba tipos, pasa las pruebas, compila y publica `dist/` en GitHub Pages en cada push a `main`.
 
-## Despliegue en GitHub Pages
+```text
+src/
+├── data/didacticCases.ts         # los 6 casos, catálogo de herramientas, verbos y reglas de lenguaje coloquial
+├── utils/evaluateWorkOrder.ts    # rúbrica de 5 pilares
+├── utils/workOrderTotals.ts      # importes, formato en euros y herramientas del laboratorio
+├── utils/workOrderSchema.ts      # validación de partes importados
+├── utils/exportMarkdown.ts
+├── utils/workOrder.test.ts
+└── components/                   # formulario, laboratorio, guía, documento A4, archivo y comparación
+```
 
-El proyecto está preconfigurado con `base: './'` en `vite.config.ts` y un flujo de trabajo automatizado en [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml):
+## Cambios
 
-1. Sube el código a tu repositorio en GitHub (rama `main` o `master`).
-2. En tu repositorio de GitHub, ve a **Settings → Pages**.
-3. En **Build and deployment → Source**, selecciona **GitHub Actions**.
-4. Con cada `git push`, GitHub Actions compilará automáticamente la aplicación y la publicará en tu URL de GitHub Pages.
+### 2.0.0 (2026-11-01)
 
----
+- Publicado en la organización con despliegue en GitHub Pages y con el nombre corregido: GitHub había convertido la «é» de «Técnicos» en un guion (`Generador-Partes-T-cnicos-IT-`). Las URL antiguas redirigen al nuevo nombre. El workflow original no podía funcionar (`npm install` fallaba por un conflicto de versiones de `esbuild` y la caché de npm no tenía lockfile).
+- **Datos técnicos de los casos**: el evento de Windows que avisa de que el firmware limita la CPU es el **ID 37** de Kernel-Processor-Power, no el 86; el caso 1 atribuía el apagado al «Thermal Throttling» cuando lo provoca THERMTRIP; el evento 153 lo registra el origen Disk, no storahci; el caso 3 citaba un código POST en una placa sin display de códigos, «errores ECC/de paridad» en memoria DDR5 sin ECC y una medida de rizado hecha con tester ATX (requiere osciloscopio).
+- **Laboratorio**: enviar los hallazgos al parte no registraba la herramienta usada, y el alumno perdía puntos sin saber por qué.
+- **Rúbrica**: un parte vacío sumaba 9 puntos; cerrar una orden como «Conforme» con pruebas sin superar no se penalizaba.
+- **Robustez**: importar un JSON con una orden mal formada dejaba la app en blanco y, como ya estaba guardada en el navegador, seguía rota al recargar. Ahora se valida al importar y al cargar.
+- **Importes** calculados en un único sitio, redondeados a céntimos y en formato español (1.234,50 €); el Markdown escapa las barras de las tablas.
+- **Interfaz**: la cabecera desbordaba a 1.000 px y la página entera en el móvil.
+- Fuentes incluidas en la web en lugar de Google Fonts, CSP estricta, fuera dependencias de Gemini y Express que no se usaban, licencia MIT y 14 pruebas automáticas.
 
-## Créditos y Autoría
+### 1.0.0
 
-Desarrollado como recurso educativo abierto para estudiantes y profesionales de Sistemas Microinformáticos y Redes:
+- Versión inicial generada con Google AI Studio.
 
-- **Proyecto y Web Oficial:** [Un Fantasma en el Sistema — https://www.unfantasmaenelsistema.com/](https://www.unfantasmaenelsistema.com/)
+## Créditos y licencia
+
+Creado por **[Un Fantasma en el Sistema](https://www.unfantasmaenelsistema.com)** para los módulos de montaje y mantenimiento de equipos de FP. Fuentes Plus Jakarta Sans y JetBrains Mono (SIL Open Font License) vía Fontsource; iconos de Lucide (ISC).
+
+Código bajo licencia [MIT](LICENSE).
