@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="100%" height="100%">
+  <defs>
+    <style>
+      .sans { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="640" fill="#F8FAFC" rx="12" />
+  <rect x="1" y="1" width="1198" height="638" fill="none" stroke="#CBD5E1" stroke-width="2" rx="12" />
+
+  <!-- Header -->
+  <rect x="24" y="24" width="1152" height="130" rx="8" fill="#FFFFFF" stroke="#E2E8F0" />
+  <text x="48" y="52" fill="#64748B" class="mono" font-size="11">SIMULADOR DE BANCO DE TALLER · ENTRENAMIENTO DE DIAGNÓSTICO CAUSA RAÍZ</text>
+  <text x="48" y="76" fill="#0F172A" class="sans" font-size="18" font-weight="700">Laboratorio de Casos Prácticos e Instrumentación IT (6 Casos Curriculares)</text>
+
+  <!-- Case Selector Pills -->
+  <rect x="48" y="94" width="175" height="44" rx="6" fill="#0F172A" />
+  <text x="60" y="113" fill="#38BDF8" class="mono" font-size="10" font-weight="700">CASO-01 · [ACTIVO]</text>
+  <text x="60" y="129" fill="#FFFFFF" class="sans" font-size="11" font-weight="600">Thermal Throttling Portátil</text>
+
+  <rect x="233" y="94" width="175" height="44" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="245" y="113" fill="#64748B" class="mono" font-size="10">CASO-02 · SMR / FP</text>
+  <text x="245" y="129" fill="#0F172A" class="sans" font-size="11" font-weight="600">Degradación SMART ID 05/C5</text>
+
+  <rect x="418" y="94" width="175" height="44" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="430" y="113" fill="#64748B" class="mono" font-size="10">CASO-03 · Hardware</text>
+  <text x="430" y="129" fill="#0F172A" class="sans" font-size="11" font-weight="600">No-POST DRAM DDR5</text>
+
+  <rect x="603" y="94" width="175" height="44" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="615" y="113" fill="#64748B" class="mono" font-size="10">CASO-04 · Electrónica</text>
+  <text x="615" y="129" fill="#0F172A" class="sans" font-size="11" font-weight="600">Soldadura Fría DC-Jack</text>
+
+  <rect x="788" y="94" width="175" height="44" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="800" y="113" fill="#64748B" class="mono" font-size="10">CASO-05 · Redes / RAID</text>
+  <text x="800" y="129" fill="#0F172A" class="sans" font-size="11" font-weight="600">NAS Synology RAID 1 + IP</text>
+
+  <rect x="973" y="94" width="179" height="44" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="985" y="113" fill="#64748B" class="mono" font-size="10">CASO-06 · Potencia ATX</text>
+  <text x="985" y="129" fill="#0F172A" class="sans" font-size="11" font-weight="600">BSOD TDR 0x116 Raíl +12V</text>
+
+  <!-- Left Panel: Client Quote & Modes -->
+  <rect x="24" y="172" width="450" height="444" rx="8" fill="#FFFFFF" stroke="#E2E8F0" />
+  <text x="44" y="200" fill="#64748B" class="mono" font-size="11">CASO-01 · MONTAJE Y MANTENIMIENTO DE EQUIPOS</text>
+  <text x="44" y="222" fill="#0F172A" class="sans" font-size="15" font-weight="700">Declaración Literal del Cliente en Recepción:</text>
+
+  <rect x="44" y="236" width="410" height="92" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="58" y="260" fill="#334155" class="sans" font-size="12" font-style="italic">«Cuando abro AutoCAD o hago una videollamada larga, el</text>
+  <text x="58" y="280" fill="#334155" class="sans" font-size="12" font-style="italic">portátil empieza a ir a tirones, hace un ruido como de carraca</text>
+  <text x="58" y="300" fill="#334155" class="sans" font-size="12" font-style="italic">y a los diez minutos se apaga de golpe. Además quema.»</text>
+
+  <text x="44" y="356" fill="#0F172A" class="sans" font-size="13" font-weight="700">3 Modos Didácticos de Trabajo para el Alumno:</text>
+
+  <rect x="44" y="370" width="410" height="66" rx="6" fill="#FFFBEB" stroke="#FCD34D" />
+  <text x="60" y="394" fill="#78350F" class="sans" font-size="12" font-weight="700">Modo 1: Corregir Parte Deficiente (Reto de Redacción)</text>
+  <text x="60" y="414" fill="#92400E" class="sans" font-size="11">Carga un borrador con jerga coloquial para corregirlo hasta 100/100.</text>
+
+  <rect x="44" y="448" width="410" height="66" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+  <text x="60" y="472" fill="#0F172A" class="sans" font-size="12" font-weight="700">Modo 2: Investigar y Redactar desde Recepción</text>
+  <text x="60" y="492" fill="#475569" class="sans" font-size="11">Usa las sondas del banco de taller y redacta el diagnóstico desde cero.</text>
+
+  <rect x="44" y="526" width="410" height="66" rx="6" fill="#ECFDF5" stroke="#6EE7B7" />
+  <text x="60" y="550" fill="#064E3B" class="sans" font-size="12" font-weight="700">Modo 3: Examinar Solución Modelo del Profesor (100/100)</text>
+  <text x="60" y="570" fill="#065F46" class="sans" font-size="11">Consulta el parte técnico ejemplar con telemetría y P/N completos.</text>
+
+  <!-- Right Panel: Interactive Hardware Probes -->
+  <rect x="494" y="172" width="682" height="444" rx="8" fill="#FFFFFF" stroke="#E2E8F0" />
+  <text x="518" y="202" fill="#0F172A" class="sans" font-size="15" font-weight="700">Pruebas de Diagnóstico en Banco de Taller (Telemetría Real)</text>
+  <line x1="518" y1="216" x2="1152" y2="216" stroke="#E2E8F0" />
+
+  <!-- Probe 1 Terminal -->
+  <text x="518" y="242" fill="#0F172A" class="sans" font-size="13" font-weight="700">PRUEBA 02 · Telemetría Térmica HWiNFO64 (Sensores SMBus)</text>
+  <rect x="970" y="224" width="182" height="26" rx="5" fill="#E0F2FE" />
+  <text x="984" y="241" fill="#0369A1" class="sans" font-size="11" font-weight="600">+ Enviar Hallazgos al Parte</text>
+
+  <rect x="518" y="258" width="634" height="145" rx="6" fill="#0F172A" />
+  <text x="536" y="282" fill="#E2E8F0" class="mono" font-size="11">CPU: Intel Core i7-12700H (14C/20T) | RAM: 32GB DDR5-4800 | SSD: Samsung PM9A1</text>
+  <text x="536" y="304" fill="#F87171" class="mono" font-size="11">Temp Reposo (Idle): 68 °C  --&gt;  Temp Carga (90s): 100 °C (Core Max)</text>
+  <text x="536" y="326" fill="#FBBF24" class="mono" font-size="11">Activación flag PROCHOT# (Thermal Throttling severo a 1.1 GHz)</text>
+  <text x="536" y="348" fill="#E2E8F0" class="mono" font-size="11">Velocidad Fan1 (PWM 100%): 0 - 1.150 RPM erráticas (Nominal: 4.400 RPM)</text>
+  <text x="536" y="370" fill="#38BDF8" class="mono" font-size="11">A los 140 seg: Disparo de protección térmica THERMTRIP# -&gt; Apagado forzado</text>
+
+  <!-- Probe 2 Terminal -->
+  <text x="518" y="434" fill="#0F172A" class="sans" font-size="13" font-weight="700">PRUEBA 03 · Verificación de Almacenamiento SMART (smartctl -a /dev/nvme0n1)</text>
+  <rect x="518" y="448" width="634" height="110" rx="6" fill="#0F172A" />
+  <text x="536" y="474" fill="#E2E8F0" class="mono" font-size="11">Model: SAMSUNG MZVL21T0HCLR-00BL7 (1024 GB NVMe PCIe 4.0)</text>
+  <text x="536" y="496" fill="#34D399" class="mono" font-size="11">Critical Warning: 0x00 | Percentage Used: 4% | Media Integrity Errors: 0</text>
+  <text x="536" y="518" fill="#FBBF24" class="mono" font-size="11">Unsafe Shutdowns: 19 (Coinciden con los cortes térmicos THERMTRIP#)</text>
+  <text x="536" y="540" fill="#94A3B8" class="mono" font-size="11">Recomendación: Ejecutar verificación chkdsk /f y DISM / sfc /scannow</text>
+
+  <text x="518" y="592" fill="#475569" class="sans" font-size="12">Pista Didáctica: Cita siempre los códigos verificables (100 °C, PROCHOT#, 1.150 RPM, S/N PF-3X98K2).</text>
+</svg>

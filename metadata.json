@@ -1,0 +1,6 @@
+{
+  "name": "Generador de Partes Técnicos IT — Un Fantasma en el Sistema",
+  "description": "Aplicación didáctica y profesional de taller IT para redactar órdenes de trabajo, contrastar síntomas de usuario frente a diagnósticos técnicos objetivos, gestionar repuestos y validar pruebas de conformidad.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
