@@ -14,6 +14,7 @@ import {
   DIAGNOSTIC_TOOLS_CATALOG,
   TECHNICAL_ACTION_VERBS
 } from '../data/didacticCases';
+import { computeTotals, formatEur } from '../utils/workOrderTotals';
 import {
   AssetCategory,
   ConformityCheckItem,
@@ -77,12 +78,12 @@ const COMMON_QA_PRESETS: { code: string; testName: string; sampleMetric: string 
   {
     code: 'QA-MEM',
     testName: 'Verificación de memoria principal MemTest86+ v7.0',
-    sampleMetric: '4 pasadas completas (13 algoritmos) con 0 errores de paridad ECC/Bit-Flip.'
+    sampleMetric: '4 pasadas completas (13 tests) con 0 errores de memoria.'
   },
   {
     code: 'QA-ELEC',
     testName: 'Comprobación de tensiones y consumo bajo carga',
-    sampleMetric: 'Raíles ATX estables (+12.06V, +5.01V, +3.31V) · Rizado < 20 mV · Sin microcortes.'
+    sampleMetric: 'Raíles ATX estables bajo carga (+12.06V, +5.01V, +3.31V) · Rizado < 20 mVpp medido con osciloscopio · Sin microcortes.'
   }
 ];
 
@@ -250,14 +251,7 @@ export const WorkOrderFormEditor: React.FC<WorkOrderFormEditorProps> = ({
     });
   };
 
-  const partsSubtotal = order.replacedParts.reduce(
-    (sum, p) => sum + p.quantity * p.unitPriceEur,
-    0
-  );
-  const laborSubtotal = order.laborHours * order.hourlyRateEur;
-  const taxableBase = partsSubtotal + laborSubtotal;
-  const vatAmount = taxableBase * (order.vatPercent / 100);
-  const grandTotal = taxableBase + vatAmount;
+  const { partsSubtotal, laborSubtotal, taxableBase, vatAmount, grandTotal } = computeTotals(order);
 
   return (
     <div className="space-y-6">
@@ -629,7 +623,7 @@ export const WorkOrderFormEditor: React.FC<WorkOrderFormEditorProps> = ({
               onChange={(e) =>
                 updateFault('rootCauseCategory', e.target.value as RootCauseCategory)
               }
-              className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md font-medium text-slate-800 dark:text-slate-200 focus:outline-none"
+              className="max-w-full px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md font-medium text-slate-800 dark:text-slate-200 focus:outline-none"
             >
               {ROOT_CAUSE_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -782,7 +776,7 @@ export const WorkOrderFormEditor: React.FC<WorkOrderFormEditorProps> = ({
                 key={preset.verb}
                 type="button"
                 onClick={() => handleAddAction(preset.verb, preset.example)}
-                className="px-2.5 py-1 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded transition-colors whitespace-nowrap shrink-0"
+                className="px-2.5 py-1 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded transition-colors max-w-full text-left sm:whitespace-nowrap"
               >
                 + {preset.verb}
               </button>
@@ -1180,18 +1174,18 @@ export const WorkOrderFormEditor: React.FC<WorkOrderFormEditorProps> = ({
             <div className="flex justify-between text-slate-300">
               <span>Repuestos + Mano de Obra:</span>
               <span>
-                {partsSubtotal.toFixed(2)} € + {laborSubtotal.toFixed(2)} €
+                {formatEur(partsSubtotal)} + {formatEur(laborSubtotal)}
               </span>
             </div>
             <div className="flex justify-between text-slate-300">
               <span>Base Imponible + IVA ({order.vatPercent}%):</span>
               <span>
-                {taxableBase.toFixed(2)} € + {vatAmount.toFixed(2)} €
+                {formatEur(taxableBase)} + {formatEur(vatAmount)}
               </span>
             </div>
             <div className="flex justify-between text-sm font-bold text-white pt-1 border-t border-slate-700">
               <span>TOTAL PRESUPUESTO / ORDEN:</span>
-              <span className="text-sky-400">{grandTotal.toFixed(2)} €</span>
+              <span className="text-sky-400">{formatEur(grandTotal)}</span>
             </div>
           </div>
         </div>
@@ -1233,7 +1227,7 @@ export const WorkOrderFormEditor: React.FC<WorkOrderFormEditorProps> = ({
                 key={preset.code}
                 type="button"
                 onClick={() => handleAddCheck(preset)}
-                className="px-2.5 py-1 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded transition-colors whitespace-nowrap shrink-0"
+                className="px-2.5 py-1 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded transition-colors max-w-full text-left sm:whitespace-nowrap"
               >
                 + {preset.code}: {preset.testName}
               </button>

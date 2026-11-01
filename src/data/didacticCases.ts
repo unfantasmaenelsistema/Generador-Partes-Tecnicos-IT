@@ -202,7 +202,7 @@ export const DIDACTIC_CASES: DidacticCase[] = [
   {
     id: 'case-thermal-laptop',
     code: 'CASO-01',
-    title: 'Apagado súbito bajo carga en portátil corporativo (Thermal Throttling)',
+    title: 'Apagado súbito bajo carga en portátil corporativo (Throttling y THERMTRIP)',
     difficulty: 'Inicial (FP Básica / Grado Medio)',
     moduleTag: 'Montaje y Mantenimiento de Equipos',
     summary: 'Una arquitecta reporta que su estación móvil se apaga de golpe al renderizar planos 3D y la base quema al tacto.',
@@ -241,8 +241,8 @@ export const DIDACTIC_CASES: DidacticCase[] = [
         toolName: 'Visor de Eventos del Sistema',
         category: 'Logs / Firmware / Red',
         commandOrProcedure: 'Filtrado de eventos Críticos en registro Sistema (Eventvwr.msc)',
-        rawOutput: 'Evento ID 41 (Kernel-Power): El sistema se ha reiniciado sin cerrarse limpiamente primero.\nEvento ID 86 (Kernel-Processor-Power): El procesador 0 del grupo 0 está limitado por el firmware del sistema (Thermal Zone ACPI\\_TZ.TZ01 = 373K / 100°C).',
-        interpretationHint: 'El Evento ID 41 y ID 86 confirman documentalmente que los apagados se deben a limitación térmica ACPI.',
+        rawOutput: 'Evento ID 41 (Kernel-Power): El sistema se ha reiniciado sin cerrarse limpiamente primero.\nEvento ID 37 (Kernel-Processor-Power): La velocidad del procesador 0 del grupo 0 está limitada por el firmware del sistema (Thermal Zone ACPI\\_TZ.TZ01 = 373K / 100°C).',
+        interpretationHint: 'El Evento ID 41 (apagado sin cierre limpio) y el ID 37 (CPU limitada por el firmware) confirman documentalmente el origen térmico de los apagados.',
         keyMetricsToCite: ['Kernel-Power ID 41', 'ACPI TZ01 100°C']
       }
     ],
@@ -367,7 +367,7 @@ export const DIDACTIC_CASES: DidacticCase[] = [
           'Visor de Eventos Windows / journalctl',
           'OCCT / Prime95 / FurMark (Stress Test)'
         ],
-        telemetryAndErrorCodes: 'Tª CPU Idle: 68 °C · Tª Carga: 100 °C (disparo de señales PROCHOT# y apagado de emergencia THERMTRIP#) · Régimen ventilador: 0-1.150 RPM erráticas (nominal 4.400 RPM) · Eventos Kernel-Power ID 41 y Kernel-Processor-Power ID 86 · SMART NVMe: 0 errores de medios, 19 apagados inseguros.',
+        telemetryAndErrorCodes: 'Tª CPU Idle: 68 °C · Tª Carga: 100 °C (disparo de señales PROCHOT# y apagado de emergencia THERMTRIP#) · Régimen ventilador: 0-1.150 RPM erráticas (nominal 4.400 RPM) · Eventos Kernel-Power ID 41 y Kernel-Processor-Power ID 37 · SMART NVMe: 0 errores de medios, 19 apagados inseguros.',
         technicalDiagnosis: 'Incapacidad crítica de disipación en el conjunto térmico debido a: (1) fallo electromecánico del rodamiento del ventilador centrífugo de 5V DC con pérdida del 74% de caudal nominal, (2) obstrucción del 85% de las aletas del radiador de cobre por acumulación de polvo y fibras, y (3) degradación por cristalización del compuesto térmico sobre los dies de CPU y GPU dedicada.',
         rootCauseCategory: 'Térmico / Disipación'
       },
@@ -485,9 +485,9 @@ export const DIDACTIC_CASES: DidacticCase[] = [
         toolName: 'Visor de Eventos de Almacenamiento (StorAHCI / Disk)',
         category: 'Logs / Firmware / Red',
         commandOrProcedure: 'Consulta de eventos de subsistema de E/S en Registro de Sistema.',
-        rawOutput: 'Evento ID 7 (Disk): El dispositivo \\Device\\Harddisk1\\DR1 tiene un bloque defectuoso.\nEvento ID 153 (storahci): Se reintentó la operación de E/S en la dirección de bloque lógico 0x1a8f4200 para el Disco 1.\nEvento ID 129 (storahci): Se emitió un restablecimiento al dispositivo \\Device\\RaidPort0 (Timeout de lectura > 30s).',
+        rawOutput: 'Evento ID 7 (Disk): El dispositivo \\Device\\Harddisk1\\DR1 tiene un bloque defectuoso.\nEvento ID 153 (Disk): Se reintentó la operación de E/S en la dirección de bloque lógico 0x1a8f4200 para el Disco 1.\nEvento ID 129 (storahci): Se emitió un restablecimiento al dispositivo \\Device\\RaidPort0 (Timeout de lectura > 30s).',
         interpretationHint: 'Los congelamientos ("No responde") ocurren porque el controlador SATA espera hasta 30 segundos intentando leer los bloques defectuosos antes de lanzar un reset ID 129.',
-        keyMetricsToCite: ['Evento Disk ID 7', 'storahci ID 153 / ID 129']
+        keyMetricsToCite: ['Disk ID 7 / ID 153', 'storahci ID 129']
       }
     ],
     flawedDraftOrder: {
@@ -594,7 +594,7 @@ export const DIDACTIC_CASES: DidacticCase[] = [
         serialNumber: '8H4K9T3',
         assetTag: 'MDI-CAD-01',
         cpu: 'Intel Core i7-13700 (16C/24T)',
-        ram: '32 GB DDR5-4400 MHz ECC/Non-ECC',
+        ram: '32 GB DDR5-4400 (2x 16 GB UDIMM no ECC)',
         storage: 'C: 512 GB NVMe SK Hynix + D: 2 TB HDD SATA3 Seagate ST2000DM008 (S/N: ZFL4921M)',
         motherboardOrGpu: 'Chipset Intel W680 + NVIDIA RTX A2000 12GB',
         operatingSystem: 'Windows 11 Pro for Workstations',
@@ -696,7 +696,7 @@ export const DIDACTIC_CASES: DidacticCase[] = [
         category: 'Inspección Visual / ESD',
         commandOrProcedure: 'Apertura de panel lateral de vidrio templado y revisión de fijaciones PCIe y DIMM.',
         rawOutput: 'Equipo: Sobremesa Custom Pro / Placa MSI PRO B650-P WIFI (S/N Placa: 601-7D78-020B2309) | Chasis S/N: NX-2025-8812\nCPU: AMD Ryzen 7 7700X | GPU: RTX 4060 Ti 16GB | PSU: Corsair RM750e\nObservación visual: El módulo DIMM instalado en el zócalo DIMMA2 presenta la pestaña inferior ligeramente abierta (desencajado parcial por vibración en traslado). Al encender, el LED de diagnóstico EZ-Debug en placa permanece fijo en AMARILLO (DRAM) + ROJO intermitente.',
-        interpretationHint: 'El LED EZ-Debug DRAM amarillo fijo indica que la placa base no supera la fase de entrenamiento de memoria (POST código 0x15 / C5) y por tanto nunca llega a inicializar la tarjeta gráfica (VGA).',
+        interpretationHint: 'El LED EZ-Debug DRAM amarillo fijo indica que la placa base no supera la fase de entrenamiento de memoria (esta placa no tiene display de códigos POST: el LED es la única pista) y por tanto nunca llega a inicializar la tarjeta gráfica (VGA).',
         keyMetricsToCite: ['EZ-Debug LED DRAM fijo', 'Zócalo DIMMA2 desencajado', 'S/N: NX-2025-8812']
       },
       {
@@ -704,16 +704,16 @@ export const DIDACTIC_CASES: DidacticCase[] = [
         toolName: 'Aislamiento por Bancos y MemTest86+ v7.0',
         category: 'Almacenamiento / Memoria',
         commandOrProcedure: 'Limpieza de contactos con limpiador de residuo cero y test individual en DIMMA2.',
-        rawOutput: 'Kit instalado: 2x 16GB Corsair Vengeance DDR5-6000 CL36 (P/N: CMK32GX5M2D6000C36).\n- Módulo 1 (S/N: 234109881A) en DIMMA2: Supera POST y completa 4 pasadas de MemTest86+ con 0 errores.\n- Módulo 2 (S/N: 234109881B) en DIMMA2 o DIMMB2: Supera POST tras reasentamiento, pero arroja 412 errores ECC/Bit-Flip en Test #6 y Test #8 de MemTest86+ incluso a frecuencia base JEDEC 4800 MHz (Dirección de fallo: 0x00038A41F20).',
-        interpretationHint: 'Además de haberse movido en el traslado, el segundo módulo (terminado en 881B) presenta celdas de memoria defectuosas a velocidad base JEDEC 4800 MHz.',
-        keyMetricsToCite: ['412 errores en MemTest86+ (Tests #6 y #8)', 'Fallo en módulo S/N 234109881B incluso a JEDEC 4800 MHz']
+        rawOutput: 'Kit instalado: 2x 16GB Corsair Vengeance DDR5-6000 CL36 (P/N: CMK32GX5M2D6000C36).\n- Módulo 1 (S/N: 234109881A) en DIMMA2: Supera POST y completa 4 pasadas de MemTest86+ con 0 errores.\n- Módulo 2 (S/N: 234109881B) en DIMMA2 o DIMMB2: Supera POST tras reasentamiento, pero arroja 412 errores de bit (bit-flip) en Test #6 y Test #8 de MemTest86+ incluso a la velocidad base JEDEC DDR5-4800 (Dirección de fallo: 0x00038A41F20).',
+        interpretationHint: 'Además de haberse movido en el traslado, el segundo módulo (terminado en 881B) presenta celdas de memoria defectuosas incluso a la velocidad base JEDEC DDR5-4800 (no es un problema de perfil XMP/EXPO).',
+        keyMetricsToCite: ['412 errores en MemTest86+ (Tests #6 y #8)', 'Fallo en módulo S/N 234109881B incluso a JEDEC DDR5-4800']
       },
       {
         id: 'probe-3-3',
         toolName: 'Comprobación de Tensiones PSU (Tester ATX / Multímetro)',
         category: 'Sensores / Eléctrico',
         commandOrProcedure: 'Medición de raíles principales en conector ATX 24 pines y EPS 8 pines.',
-        rawOutput: 'Raíl +12V: 12.08 V (Rizado < 18 mV)\nRaíl +5V: 5.02 V\nRaíl +3.3V: 3.31 V\nPower Good (PG): 290 ms (Dentro del estándar ATX 100-500 ms).',
+        rawOutput: 'Raíl +12V: 12.08 V\nRaíl +5V: 5.02 V\nRaíl +3.3V: 3.31 V\n+5VSB: 5.04 V\nPower Good (PG) según el tester ATX: 290 ms (el estándar ATX exige 100-500 ms).\n[El rizado no se puede medir con multímetro ni tester: requiere osciloscopio]',
         interpretationHint: 'La fuente de alimentación Corsair RM750e entrega voltajes perfectos; se descarta problema eléctrico en PSU.',
         keyMetricsToCite: ['+12.08V / +5.02V / +3.31V', 'PG: 290 ms']
       }
@@ -838,8 +838,8 @@ export const DIDACTIC_CASES: DidacticCase[] = [
           'Polímetro Digital TrueRMS / Tester ATX',
           'Tarjeta POST PCIe / Analizador LPC'
         ],
-        telemetryAndErrorCodes: 'Indicador EZ-Debug LED en placa base bloqueado en estado DRAM (Amarillo fijo) · Tensiones PSU nominales (+12.08V, +5.02V, +3.31V, PG 290ms) · Módulo 1 (S/N 234109881A): 0 errores · Módulo 2 (S/N 234109881B): 412 errores de celda en Tests #6 y #8 de MemTest86+ a frecuencia base JEDEC 4800 MHz.',
-        technicalDiagnosis: 'Fallo en la secuencia de Power-On Self-Test (POST) en la fase de inicialización de memoria DRAM causado por desencajamiento parcial del módulo en DIMMA2 durante el traslado y degradación física de chips de memoria en el segundo módulo DIMM (P/N CMK32GX5M2D6000C36, S/N 234109881B), el cual arroja 412 errores de paridad incluso a perfil base JEDEC 4800 MHz.',
+        telemetryAndErrorCodes: 'Indicador EZ-Debug LED en placa base bloqueado en estado DRAM (Amarillo fijo) · Tensiones PSU nominales (+12.08V, +5.02V, +3.31V, PG 290ms) · Módulo 1 (S/N 234109881A): 0 errores · Módulo 2 (S/N 234109881B): 412 errores de celda en Tests #6 y #8 de MemTest86+ a la velocidad base JEDEC DDR5-4800.',
+        technicalDiagnosis: 'Fallo en la secuencia de Power-On Self-Test (POST) en la fase de inicialización de memoria DRAM causado por desencajamiento parcial del módulo en DIMMA2 durante el traslado y degradación física de chips de memoria en el segundo módulo DIMM (P/N CMK32GX5M2D6000C36, S/N 234109881B), el cual arroja 412 errores de bit en MemTest86+ incluso a la velocidad base JEDEC DDR5-4800.',
         rootCauseCategory: 'Memoria RAM / Bus de Sistema'
       },
       correctiveActions: [

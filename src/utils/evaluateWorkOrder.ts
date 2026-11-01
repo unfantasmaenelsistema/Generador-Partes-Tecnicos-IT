@@ -139,6 +139,9 @@ export function evaluateWorkOrder(order: WorkOrder): DidacticReportEvaluation {
   } else if (validActions.length === 1) {
     p3Score += 12;
     p3Missing.push('Desglosa la intervención en al menos 2 fases diferenciadas (ej. Desmontaje ESD + Intervención Hardware + Verificación lógica).');
+  } else if (order.correctiveActions.every((a) => !a.technicalDescription.trim())) {
+    // Sin ninguna acción redactada no hay nada que puntuar
+    p3Missing.push('Registra las acciones correctivas realizadas, fase por fase, con vocabulario técnico preciso.');
   } else {
     p3Score += 4;
     p3Missing.push('Describe las acciones correctivas con vocabulario técnico preciso evitando frases informales ("echar pasta", "quitar polvo").');
@@ -155,7 +158,7 @@ export function evaluateWorkOrder(order: WorkOrder): DidacticReportEvaluation {
       p4Feedback.push('Sin sustitución de piezas; se documenta en notas finales del parte.');
       p4Missing.push('Si la avería requiere recambio o consumible, regístralo en la tabla de Piezas Sustituidas con su P/N.');
     } else {
-      p4Score = 5;
+      p4Score = 0;
       p4Missing.push('Registra las piezas o consumibles sustituidos (con su P/N o SKU) o justifica en Notas Finales por qué no se requirió recambio.');
     }
   } else {
@@ -200,6 +203,15 @@ export function evaluateWorkOrder(order: WorkOrder): DidacticReportEvaluation {
   } else {
     p5Score = 0;
     p5Missing.push('Marca y documenta las pruebas finales de conformidad con los valores obtenidos antes de cerrar la orden de trabajo.');
+  }
+
+  // Una orden cerrada como «Conforme» no puede tener pruebas de conformidad sin superar
+  const failedChecks = order.conformityChecks.filter((c) => !c.passed);
+  if (order.status === 'Cerrado — Conforme' && failedChecks.length > 0) {
+    p5Score = Math.min(p5Score, 6);
+    p5Missing.push(
+      `La orden figura como «Cerrado — Conforme» pero hay pruebas sin superar (${failedChecks.map((c) => c.code).join(', ')}): repite la verificación o cambia el estado.`
+    );
   }
 
   const pillars: PillarEvaluation[] = [
